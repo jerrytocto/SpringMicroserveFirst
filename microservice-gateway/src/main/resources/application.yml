@@ -1,0 +1,24 @@
+server:
+  port: 8003
+
+spring:
+  application:
+    name: mcsv-gateway
+  main:
+    web-application-type: reactive
+  config:
+    import: optional:configserver:http://localhost:8888
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: students
+          uri: http://localhost:8091
+          predicates:
+            - Path=/api/v1/students/**
+        - id: courses
+          uri: http://localhost:9090
+          predicates:
+            - Path=/api/v1/courses/**
